@@ -391,7 +391,8 @@ trait DBConnection extends LogSupport with LoanPattern {
         .orElse(_getTableName(meta, schema, table.toUpperCase(en), tableTypes))
         .orElse(_getTableName(meta, schema, table.toLowerCase(en), tableTypes)).map { tableName =>
           val _schema = {
-            if (meta.getURL.startsWith("jdbc:hsqldb")) {
+            val url = meta.getURL
+            if (url.startsWith("jdbc:hsqldb") || url.startsWith("jdbc:sqlserver")) {
               schema
             } else {
               Option(schema).getOrElse("")
